@@ -1,0 +1,20 @@
+1.04
+
+  Summary: Script layer rewritten as an additive patch. xAGNA adds to the animation tables at load and coexists with other NPC animation mods,
+    and it restores every vanilla pose the old scripts dropped while keeping the new animations.
+
+  Compatibility
+    - The three full-file animation-table overrides give way to 2 additive scripts that patch the tables at load. xAGNA stops shipping those files, so it coexists with other NPC animation mods.
+
+  Animations restored
+    - Sentry, listening and searching NPCs play their poses on every weapon slot again. The old scripts had dropped several slots to a plain idle.
+    - NPCs searching for a bloodsucker play the alert pose again. The old scripts left it blank.
+    - The unarmed idle cycles its 4 variants again, and the duplicated idle entry is fixed.
+    - Heavy-wounded variant 3 keeps its own distinct pose again.
+    - Standing smoke plays the smoking animation again.
+
+  Animations kept
+    - The free-hand punch, the PDA draw on the idle, commander, guard and talk poses, the standing medical and wounded postures, and the re-animated motion set stay unchanged.
+
+  Install
+    - Delete the previous xAGNA, then install this version. It drops the old script files. Leaving them in place re-applies the old behavior.

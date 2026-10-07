@@ -1,59 +1,22 @@
 direction: down
 
-title: |md
-  # After: additive companion
-| {near: top-center}
-
-authored: "Authored inputs" {
-  style.fill: "#1f3b2e"
-  style.stroke: "#cfe8d8"
-  style.font-color: "#eafff2"
-
-  yours: "Chemzs  (files, no git)" {
-    style.fill: "#2a4a39"
-    style.stroke: "#cfe8d8"
-    style.font-color: "#eafff2"
-    omf: "xAGNA OMFs\nthe motions" {shape: cylinder; style.fill: "#356049"; style.font-color: "#eafff2"; style.stroke: "#cfe8d8"}
-    dltx: "xAGNA DLTX\nweapon + item positions" {shape: page; style.fill: "#356049"; style.font-color: "#eafff2"; style.stroke: "#cfe8d8"}
-  }
-
-  companion: "Damian  (git, Lua only)" {
-    style.fill: "#2a4a39"
-    style.stroke: "#cfe8d8"
-    style.font-color: "#eafff2"
-    core: "xagna_core\nwhich motion per situation" {style.fill: "#356049"; style.font-color: "#eafff2"; style.stroke: "#cfe8d8"}
-    mcm: "xagna_mcm\nin-game switches" {style.fill: "#356049"; style.font-color: "#eafff2"; style.stroke: "#cfe8d8"}
-    overrides: "zzz_xagna_overrides\napplies it all at game start" {style.fill: "#356049"; style.font-color: "#eafff2"; style.stroke: "#cfe8d8"}
+inputs: "xAGNA mod" {
+  style.fill: "#1f3b2e"; style.stroke: "#cfe8d8"; style.font-color: "#eafff2"
+  omf: "OMF motions" {shape: cylinder; style.fill: "#356049"; style.stroke: "#cfe8d8"; style.font-color: "#eafff2"}
+  dltx: "DLTX configs" {shape: page; style.fill: "#356049"; style.stroke: "#cfe8d8"; style.font-color: "#eafff2"}
+  scripts: "script layer" {
+    style.fill: "#2a4a39"; style.stroke: "#cfe8d8"; style.font-color: "#eafff2"
+    core: "xagna_core\ndata" {style.fill: "#356049"; style.stroke: "#cfe8d8"; style.font-color: "#eafff2"}
+    ovr: "zzz_xagna_overrides\napplies at game start" {style.fill: "#356049"; style.stroke: "#cfe8d8"; style.font-color: "#eafff2"}
   }
 }
 
-anomaly: "Anomaly base" {
-  style.fill: "#1f3b2e"
-  style.stroke: "#cfe8d8"
-  style.font-color: "#eafff2"
-  tables: "vanilla state tables\nstate_lib, state_mgr_animation_list" {style.fill: "#2a4a39"; style.font-color: "#eafff2"; style.stroke: "#cfe8d8"}
-  vomf: "vanilla OMFs\nbase motions" {shape: cylinder; style.fill: "#2a4a39"; style.font-color: "#eafff2"; style.stroke: "#cfe8d8"}
-}
+vanilla: "vanilla state tables\nload whole, no override" {style.fill: "#2a4a39"; style.stroke: "#cfe8d8"; style.font-color: "#eafff2"}
+others: "other animation mods" {style.fill: "#3a3320"; style.stroke: "#e8dcc0"; style.font-color: "#fff6e0"}
+engine: "X-Ray engine" {style.fill: "#24344a"; style.stroke: "#cdddf0"; style.font-color: "#eaf3ff"}
 
-gamma: "GAMMA  other animation mods\ne.g. RemadeAnimations OMFs" {
-  style.fill: "#3a3320"
-  style.stroke: "#e8dcc0"
-  style.font-color: "#fff6e0"
-}
-
-engine: "X-Ray engine  (C++)" {
-  style.fill: "#24344a"
-  style.stroke: "#cdddf0"
-  style.font-color: "#eaf3ff"
-  sel: "torso animation selector" {style.fill: "#33506f"; style.font-color: "#eaf3ff"; style.stroke: "#cdddf0"}
-  queue: "state_mgr script queue" {style.fill: "#33506f"; style.font-color: "#eaf3ff"; style.stroke: "#cdddf0"}
-}
-
-authored.companion.core -> authored.companion.overrides: "data"
-authored.companion.mcm -> authored.companion.overrides: "switch values"
-authored.companion.overrides -> anomaly.tables: "layers entries, applies switches onto"
-authored.companion.overrides -> authored.yours.omf: "checks a motion exists in"
-authored.yours.omf -> engine: "supply motions to"
-anomaly.vomf -> engine: "supply base motions to"
-anomaly.tables -> engine.queue: "feed states to"
-gamma -> engine: "overlay motions, coexist"
+inputs.scripts.core -> inputs.scripts.ovr: "data"
+inputs.scripts.ovr -> vanilla: "copy_table + field write (additive)"
+inputs.omf -> engine: "motions"
+vanilla -> engine: "states"
+others -> engine: "coexist"
