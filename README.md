@@ -4,7 +4,7 @@ The full xAGNA NPC animation overhaul (Anomaly / GAMMA), with the reworked scrip
 
 The scripts are additive and never replace a vanilla file.
 
-- `gamedata/scripts/`: `xagna_core`, `zzz_xagna_overrides`
+- `gamedata/scripts/`: `xagna_core`, `xagna_mcm`, `zzz_xagna_overrides`
 - `gamedata/meshes/`: the OMF animations
 - `gamedata/configs/`: the DLTX
 - `gamedata/textures/`: the textures

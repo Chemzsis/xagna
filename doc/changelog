@@ -16,5 +16,8 @@
   Animations kept
     - The free-hand punch, the PDA draw on the idle, commander, guard and talk poses, the standing medical and wounded postures, and the re-animated motion set stay unchanged.
 
+  Diagnostics
+    - Added an MCM Log level control. The script layer writes its applied edits and any missing-table warnings to the xray log under the [xagna] prefix.
+
   Install
     - Delete the previous xAGNA, then install this version. It drops the old script files. Leaving them in place re-applies the old behavior.
