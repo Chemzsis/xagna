@@ -4,18 +4,19 @@ local pairs = pairs
 
 local function apply_animation_edits()
     if not state_mgr_animation_list then
-        xagna_core.log("WARN state_mgr_animation_list absent, animation edits skipped")
+        xagna_core.log_warn("state_mgr_animation_list absent, animation edits skipped")
         return 0
     end
     local anims = state_mgr_animation_list.animations
     if not anims then
-        xagna_core.log("WARN animation table absent, animation edits skipped")
+        xagna_core.log_warn("animation table absent, animation edits skipped")
         return 0
     end
 
     local count = 0
     for name, entry in pairs(xagna_core.get_keep_entries()) do
         anims[name] = entry
+        xagna_core.log_debug("entry %s applied", name)
         count = count + 1
     end
 
@@ -24,9 +25,10 @@ local function apply_animation_edits()
         if entry then
             entry.into = patch.into
             entry.out = patch.out
+            xagna_core.log_debug("into-overlay %s applied", name)
             count = count + 1
         else
-            xagna_core.log("WARN animation entry %s absent, into-overlay skipped", name)
+            xagna_core.log_warn("animation entry %s absent, into-overlay skipped", name)
         end
     end
 
@@ -35,12 +37,12 @@ end
 
 local function apply_posture_edits()
     if not state_lib then
-        xagna_core.log("WARN state_lib absent, posture edits skipped")
+        xagna_core.log_warn("state_lib absent, posture edits skipped")
         return 0
     end
     local states = state_lib.states
     if not states then
-        xagna_core.log("WARN state table absent, posture edits skipped")
+        xagna_core.log_warn("state table absent, posture edits skipped")
         return 0
     end
 
@@ -53,9 +55,10 @@ local function apply_posture_edits()
             end
             state.mental = delta.mental
             state.bodystate = delta.bodystate
+            xagna_core.log_debug("posture %s applied", name)
             count = count + 1
         else
-            xagna_core.log("WARN state %s absent, posture skipped", name)
+            xagna_core.log_warn("state %s absent, posture skipped", name)
         end
     end
 
@@ -65,5 +68,5 @@ end
 function on_game_start()
     local animations = apply_animation_edits()
     local postures = apply_posture_edits()
-    xagna_core.log("game start: %s animation entries, %s postures applied", animations, postures)
+    xagna_core.log_info("game start: %s animation entries, %s postures applied", animations, postures)
 end

@@ -10,12 +10,29 @@ local function punch_slot(index)
     return { "free_facer_" .. index, { f = xr_effects.actor_punch }, "free_facer_" .. index, { f = xr_effects.clearAbuse } }
 end
 
-local DEBUG = true
+local LEVELS = { ERROR = 2, WARN = 3, INFO = 4, DEBUG = 5 }
+local log_level = LEVELS.WARN
 
---- Writes a prefixed line to the xray log when DEBUG is on.
-function log(fmt, ...)
-    if not DEBUG then return end
-    printf("[xagna] " .. fmt, ...)
+--- Sets the log threshold from a level name; an unknown name falls back to WARN.
+function set_log_level(name)
+    log_level = LEVELS[name] or LEVELS.WARN
+end
+
+local function emit(level, label, fmt, ...)
+    if level > log_level then return end
+    printf("[xagna][" .. label .. "] " .. fmt, ...)
+end
+
+function log_warn(fmt, ...)
+    emit(LEVELS.WARN, "WARN", fmt, ...)
+end
+
+function log_info(fmt, ...)
+    emit(LEVELS.INFO, "INFO", fmt, ...)
+end
+
+function log_debug(fmt, ...)
+    emit(LEVELS.DEBUG, "DEBUG", fmt, ...)
 end
 
 --- Whole animation-list entries kept verbatim from xAGNA (swaps that change the motion, not the action).

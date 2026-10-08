@@ -1,0 +1,27 @@
+--- xagna_mcm: the MCM log-level control and the config reader.
+
+local function get_config(key)
+    if not ui_mcm then return nil end
+    return ui_mcm.get("xagna/" .. key)
+end
+
+function on_mcm_load()
+    return {
+        id = "xagna",
+        sh = true,
+        gr = {
+            { id = "log_level", type = "list", val = 0, def = "WARN",
+                content = {
+                    { "ERROR", "error" },
+                    { "WARN", "warn" },
+                    { "INFO", "info" },
+                    { "DEBUG", "debug" },
+                },
+            },
+        },
+    }
+end
+
+function on_game_start()
+    xagna_core.set_log_level(get_config("log_level") or "WARN")
+end
