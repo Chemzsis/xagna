@@ -16,4 +16,4 @@ The layer ships none of the three table overrides, so vanilla `state_lib`, `stat
 `copy_table` merges the kept entries into the animation table and a field write sets the standing postures.
 No override means it coexists with other NPC animation mods and survives a base-game update.
 The PDA and medical clips use xAGNA-only motions the mod's own OMF carries.
-The logger writes to the xray log under the `[xagna]` prefix at the level the MCM Log level picks, WARN by default.
+The logger buffers lines and flushes them to its own `xagna.log` at the level the MCM Log level picks, WARN by default.

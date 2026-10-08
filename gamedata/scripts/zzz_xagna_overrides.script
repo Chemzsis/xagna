@@ -69,4 +69,5 @@ function on_game_start()
     local animations = apply_animation_edits()
     local postures = apply_posture_edits()
     xagna_core.log_info("game start: %s animation entries, %s postures applied", animations, postures)
+    xagna_core.flush_log()
 end

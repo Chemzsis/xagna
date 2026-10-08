@@ -1,5 +1,7 @@
 --- xagna_core: data for the additive companion -- kept animation entries, PDA into-patches, and standing-posture deltas.
 
+local getFS, io, os, pcall, string, table = getFS, io, os, pcall, string, table
+
 local PROP_ONESHOT = { maxidle = 1, sumidle = 1, rnd = 100 }
 local PROP_WOUNDED = { maxidle = 5, sumidle = 10, rnd = 70 }
 local PROP_PUNCH   = { maxidle = 5, sumidle = 2, rnd = 100 }
@@ -12,15 +14,39 @@ end
 
 local LEVELS = { ERROR = 2, WARN = 3, INFO = 4, DEBUG = 5 }
 local log_level = LEVELS.WARN
+local buffer = {}
+local log_path
+local log_started = false
 
 --- Sets the log threshold from a level name; an unknown name falls back to WARN.
 function set_log_level(name)
     log_level = LEVELS[name] or LEVELS.WARN
 end
 
+local function get_log_path()
+    if not log_path then
+        log_path = getFS():update_path("$logs$", "") .. "xagna.log"
+    end
+    return log_path
+end
+
+--- Writes the buffered lines to xagna.log in one open, then clears the buffer.
+function flush_log()
+    if #buffer == 0 then return end
+    local file = io.open(get_log_path(), log_started and "a" or "w")
+    if not file then return end
+    file:write(table.concat(buffer, "\n") .. "\n")
+    file:flush()
+    file:close()
+    buffer = {}
+    log_started = true
+end
+
 local function emit(level, label, fmt, ...)
     if level > log_level then return end
-    printf("[xagna][" .. label .. "] " .. fmt, ...)
+    local ok, msg = pcall(string.format, fmt, ...)
+    buffer[#buffer + 1] = string.format("[%s][%s] %s", os.date("%H:%M:%S"), label, ok and msg or fmt)
+    if level <= LEVELS.WARN then flush_log() end
 end
 
 function log_warn(fmt, ...)
