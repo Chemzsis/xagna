@@ -12,3 +12,8 @@ The scripts are additive and never replace a vanilla file.
 - `doc/changelog`: version history
 
 The repo holds the complete mod, ready to install.
+
+## Credits
+
+xAGNA and all its assets belong to Chemzs.
+Nazerttop and Fourth Day made the animations, and Siba Inu Maska set the weapon positions.
